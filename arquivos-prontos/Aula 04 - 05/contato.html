@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Integrado</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="imgs/icone.png">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" title="Intregrado" class="header-logo">
+            <img src="imgs/logo-negativa.png" alt="Integrado">
+        </a>
+        <a href="javascript:;" title="Menu" onclick="showMenu()" class="header-menu">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="menu">
+            <ul>
+                <li>
+                    <a href="index.html" title="Home">Home</a>
+                </li>
+                <li>
+                    <a href="sobre.html" title="Sobre">Sobre</a>
+                </li>
+                <li>
+                    <a href="contato.html" title="Contato">Contato</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Entre em Contato</h1>
+        <p>
+            <i class="fab fa-instagram"></i> grupointegrado
+        </p>
+        <p>
+            <i class="fab fa-facebook"></i> grupointegrado
+        </p>
+        <p>
+            <i class="fab fa-linkedin"></i> grupointegrado
+        </p>
+        <p>
+            <i class="fas fa-whatsapp"></i> (44) 1234-12345
+        </p>
+    </main>
+    <footer class="footer">
+        <p>Desenvolvido por José da Silva</p>
+    </footer>
+
+    <script>
+        function showMenu() {
+            var menu = document.getElementById("menu");
+            menu.classList.toggle("escondido");
+        }
+    </script>
+</body>
+</html>

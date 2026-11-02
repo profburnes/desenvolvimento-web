@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Netflix Brasil - Séries e Filmes</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        /* =========================================
+       VARIÁVEIS NATIVAS (CSS CUSTOM PROPERTIES)
+       ========================================= */
+        :root {
+            --netflix-red: #e50914;
+            --netflix-red-dark: #b80710;
+            --bg-dark: #141414;
+            --bg-darker: #0e0e0e;
+            --surface-card: #201f1f;
+            --surface-hover: #2a2a2a;
+            --surface-border: #353534;
+            --text-light: #ffffff;
+            --text-muted: #e5e2e1;
+            --text-subtle: #a3a3a3;
+            --match-green: #46d369;
+            --radius-sm: 4px;
+            --radius-full: 9999px;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --header-height: 68px;
+            --gutter: 4%;
+            --transition-standard: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* =========================================
+       RESET & BASE STYLES
+       ========================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 14px;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            color: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Remove scrollbars visíveis mantendo a rolagem */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            scrollbar-width: none;
+        }
+
+        /* =========================================
+       CABEÇALHO (NETFLIX HEADER)
+       ========================================= */
+        .netflix-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--gutter);
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(14, 14, 14, 0.9) 0%, rgba(14, 14, 14, 0.4) 60%, transparent 100%);
+            backdrop-filter: blur(10px);
+            transition: background-color 0.4s ease;
+        }
+
+        .netflix-header.scrolled {
+            background-color: rgba(20, 20, 20, 0.96);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .netflix-logo-img {
+            height: 30px;
+            width: auto;
+            display: block;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: #b3b3b3;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-btn {
+            color: var(--text-light);
+            padding: 4px;
+        }
+
+        .search-input {
+            width: 0;
+            opacity: 0;
+            border: none;
+            outline: none;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: var(--radius-sm);
+            color: var(--text-light);
+            font-size: 13px;
+            padding: 6px 10px;
+            transition: width 0.3s ease, opacity 0.3s ease;
+        }
+
+        .search-wrapper:focus-within .search-input,
+        .search-input:focus {
+            width: 210px;
+            opacity: 1;
+            margin-left: 8px;
+        }
+
+        .notification-btn {
+            position: relative;
+            color: var(--text-light);
+            padding: 4px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            background-color: var(--netflix-red);
+            color: var(--text-light);
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background-color: var(--netflix-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+
+        .profile-dropdown-arrow {
+            color: var(--text-light);
+            font-size: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .user-profile-menu:hover .profile-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* =========================================
+       HERO BILLBOARD (DESTAQUE PRINCIPAL)
+       ========================================= */
+        .hero-billboard {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            min-height: 560px;
+            max-height: 920px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            margin-bottom: -40px;
+        }
+
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfSziki7oe60WRAoWQDyBvRhN8HSzXLuzT4V9itgmUVMk_x2LOIcXir3pabm7iBbY8pXRwRZqma7n598EMOQRd-OwI2E5NBxHE9dRtqRRHBFV9SAcEzX5Qg-TZhbInIJbc-0xLfOixW_g41qYxqNJhJXh6mHJSZayJLaf8sTtx9gokmi6Sy1pYkhggZR8Eqw1ajaOthwlySYhw8tv2bjKTIwqL-l2tiHDo6lmEhzhj');
+            background-size: cover;
+            background-position: center 25%;
+            transform: scale(1.02);
+            transition: transform 1.2s ease-out;
+            z-index: 1;
+        }
+
+        .hero-vignette-bottom {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(20, 20, 20, 0.7) 70%, var(--bg-dark) 100%);
+            z-index: 2;
+        }
+
+        .hero-vignette-left {
+            position: absolute;
+            inset: 0;
+            width: 65%;
+            background: linear-gradient(90deg, rgba(20, 20, 20, 0.95) 0%, rgba(20, 20, 20, 0.5) 65%, transparent 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 0 var(--gutter) 110px var(--gutter);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-width: 680px;
+        }
+
+        .hero-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .netflix-pill {
+            background-color: var(--netflix-red);
+            color: var(--text-light);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            padding: 3px 6px;
+            border-radius: var(--radius-sm);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hero-top-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hero-top-text .material-symbols-outlined {
+            font-size: 16px;
+            color: var(--netflix-red);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(54px, 8vw, 88px);
+            line-height: 0.95;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
+        }
+
+        .hero-synopsis {
+            font-size: 16px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-width: 580px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--text-light);
+            color: var(--bg-darker);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 10px 26px;
+            border-radius: var(--radius-sm);
+            gap: 8px;
+            transition: var(--transition-standard);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(255, 255, 255, 0.85);
+            transform: scale(1.03);
+        }
+
+        .btn-secondary {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: var(--text-light);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: var(--radius-sm);
+            gap: 8px;
+            backdrop-filter: blur(4px);
+            transition: var(--transition-standard);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(109, 109, 110, 0.4);
+            transform: scale(1.03);
+        }
+
+        .hero-aside-controls {
+            position: absolute;
+            right: 0;
+            bottom: 120px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .audio-toggle-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-full);
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--text-light);
+            transition: var(--transition-standard);
+        }
+
+        .audio-toggle-btn:hover {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-color: var(--text-light);
+        }
+
+        .age-rating-badge {
+            background-color: rgba(51, 51, 51, 0.65);
+            border-left: 3px solid var(--netflix-red);
+            padding: 6px 14px 6px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-light);
+            backdrop-filter: blur(4px);
+        }
+
+        /* =========================================
+       CARROSSEL & SEÇÕES DE FILMES
+       ========================================= */
+        .content-rails {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            padding-bottom: 80px;
+        }
+
+        .shelf-section {
+            width: 100%;
+            position: relative;
+        }
+
+        .shelf-header {
+            padding: 0 var(--gutter);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .shelf-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .shelf-title:hover {
+            color: var(--text-light);
+        }
+
+        .shelf-title .material-symbols-outlined {
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            font-size: 20px;
+        }
+
+        .shelf-section:hover .shelf-title .material-symbols-outlined {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .shelf-more-link {
+            font-size: 13px;
+            color: var(--text-subtle);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .shelf-more-link:hover {
+            color: var(--text-light);
+        }
+
+        .carousel-wrapper {
+            position: relative;
+        }
+
+        .carousel-slider {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 16px var(--gutter);
+            align-items: center;
+        }
+
+        /* Botões laterais de navegação */
+        .carousel-nav-btn {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background: rgba(20, 20, 20, 0.7);
+            color: var(--text-light);
+            z-index: 40;
+            opacity: 0;
+            transition: opacity 0.25s ease, background-color 0.25s ease;
+        }
+
+        .carousel-nav-btn.prev {
+            left: 0;
+        }
+
+        .carousel-nav-btn.next {
+            right: 0;
+        }
+
+        .carousel-wrapper:hover .carousel-nav-btn {
+            opacity: 1;
+        }
+
+        .carousel-nav-btn:hover {
+            background: rgba(20, 20, 20, 0.95);
+        }
+
+        .carousel-nav-btn .material-symbols-outlined {
+            font-size: 40px;
+        }
+
+        /* =========================================
+       CARD PADRÃO (MOVIE CARD WIDESCREEN)
+       ========================================= */
+        .movie-card {
+            flex: 0 0 295px;
+            border-radius: var(--radius-sm);
+            background-color: var(--surface-card);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.08);
+            z-index: 35;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.85);
+        }
+
+        .card-thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-color: #222;
+        }
+
+        .card-thumbnail-scrim {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(14, 14, 14, 0.85) 100%);
+        }
+
+        .card-netflix-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 18px;
+            height: 18px;
+            background-color: var(--netflix-red);
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .card-info-overlay {
+            position: absolute;
+            bottom: 8px;
+            left: 10px;
+            right: 10px;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .card-meta-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+        }
+
+        .match-rate {
+            color: var(--match-green);
+            font-weight: 700;
+        }
+
+        .card-duration {
+            color: var(--text-subtle);
+        }
+
+        /* Barra de progresso para títulos em andamento */
+        .card-progress-track {
+            width: 100%;
+            height: 3px;
+            background-color: var(--surface-border);
+        }
+
+        .card-progress-bar {
+            height: 100%;
+            background-color: var(--netflix-red);
+        }
+
+        .card-details-panel {
+            padding: 10px 12px;
+            background-color: var(--surface-card);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-actions-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .circle-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--text-light);
+            transition: var(--transition-standard);
+        }
+
+        .circle-btn:hover {
+            border-color: var(--text-light);
+            transform: scale(1.08);
+        }
+
+        .circle-btn.play-circle {
+            background-color: var(--text-light);
+            color: var(--bg-darker);
+            border: none;
+        }
+
+        .circle-btn.play-circle:hover {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .age-pill {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-subtle);
+            border: 1px solid var(--surface-border);
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        /* =========================================
+       TOP 10 NÚMEROS GIGANTES
+       ========================================= */
+        .top10-item {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .top10-item:hover {
+            transform: scale(1.06);
+        }
+
+        .top10-number {
+            font-family: var(--font-display);
+            font-size: 160px;
+            font-weight: 900;
+            line-height: 0.8;
+            letter-spacing: -12px;
+            color: var(--bg-darker);
+            -webkit-text-stroke: 4px #595959;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+            user-select: none;
+            margin-right: -24px;
+            z-index: 10;
+        }
+
+        .top10-poster {
+            width: 145px;
+            height: 215px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .top10-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background-color: var(--netflix-red);
+            color: var(--text-light);
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        /* =========================================
+       POSTER VERTICAL (ORIGINAIS NETFLIX)
+       ========================================= */
+        .poster-original {
+            flex: 0 0 190px;
+            aspect-ratio: 2 / 3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .poster-original:hover {
+            transform: scale(1.07);
+            z-index: 30;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);
+        }
+
+        .poster-scrim {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(14, 14, 14, 0.95) 100%);
+        }
+
+        .poster-netflix-n {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            color: var(--netflix-red);
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .poster-caption {
+            position: absolute;
+            bottom: 12px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .poster-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .poster-match {
+            font-size: 11px;
+            color: var(--match-green);
+            font-weight: 600;
+        }
+
+        /* =========================================
+       MODAL DE DETALHES (MAIS INFORMAÇÕES)
+       ========================================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 860px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background-color: var(--surface-card);
+            border-radius: 8px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            background-color: rgba(20, 20, 20, 0.8);
+            color: var(--text-light);
+            z-index: 50;
+            transition: var(--transition-standard);
+        }
+
+        .modal-close-btn:hover {
+            background-color: var(--text-light);
+            color: var(--bg-darker);
+        }
+
+        .modal-billboard {
+            height: 380px;
+            width: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .modal-billboard-scrim {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--surface-card) 100%);
+        }
+
+        .modal-billboard-content {
+            position: absolute;
+            bottom: 24px;
+            left: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-title-display {
+            font-family: var(--font-display);
+            font-size: 46px;
+            line-height: 1;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-body-content {
+            padding: 24px 32px 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .modal-details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+
+        .modal-meta-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .badge-pill-hd {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1px 5px;
+            border-radius: 2px;
+            font-size: 10px;
+            color: var(--text-subtle);
+        }
+
+        .modal-synopsis-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .modal-metadata-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 12px;
+            color: var(--text-subtle);
+        }
+
+        .modal-metadata-right span {
+            color: #777;
+        }
+
+        .modal-episodes-section {
+            border-top: 1px solid var(--surface-border);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .modal-episodes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .episode-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .episode-item:hover {
+            background-color: var(--surface-hover);
+        }
+
+        .episode-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .episode-num {
+            font-size: 18px;
+            font-weight: 700;
+            color: #666;
+            width: 20px;
+        }
+
+        .episode-thumb {
+            width: 110px;
+            height: 64px;
+            border-radius: 3px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .episode-title-box {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .episode-title-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .episode-desc-text {
+            font-size: 12px;
+            color: var(--text-subtle);
+            max-width: 440px;
+        }
+
+        /* =========================================
+       TOAST DE NOTIFICAÇÃO
+       ========================================= */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: var(--text-light);
+            color: var(--bg-darker);
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast-notification.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-icon {
+            color: var(--netflix-red);
+        }
+
+        /* =========================================
+       RODAPÉ (NETFLIX FOOTER)
+       ========================================= */
+        .netflix-footer {
+            width: 100%;
+            background-color: rgba(14, 14, 14, 0.95);
+            padding: 50px var(--gutter) 40px var(--gutter);
+            color: #757575;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-inner-container {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .footer-contact a {
+            text-decoration: underline;
+            color: inherit;
+        }
+
+        .footer-contact a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-links-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px 24px;
+            margin-top: 8px;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            color: var(--text-muted);
+        }
+
+        .service-code-btn {
+            align-self: flex-start;
+            border: 1px solid #757575;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #757575;
+            margin-top: 8px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .service-code-btn:hover {
+            color: var(--text-light);
+            border-color: var(--text-light);
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* =========================================
+       RESPONSIVIDADE (MEDIA QUERIES PURAS)
+       ========================================= */
+        @media (max-width: 1024px) {
+            .footer-links-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .modal-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .main-nav,
+            .search-wrapper input {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 46px;
+            }
+
+            .hero-synopsis {
+                font-size: 14px;
+                -webkit-line-clamp: 2;
+            }
+
+            .movie-card {
+                flex: 0 0 230px;
+            }
+
+            .top10-number {
+                font-size: 110px;
+                letter-spacing: -6px;
+                margin-right: -16px;
+            }
+
+            .top10-poster {
+                width: 110px;
+                height: 165px;
+            }
+
+            .poster-original {
+                flex: 0 0 145px;
+            }
+
+            .footer-links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================================
+       HEADER NAVEGAÇÃO
+       ========================================= -->
+    <header class="netflix-header" id="navbar">
+        <div class="header-left">
+            <a aria-label="Netflix Início" href="#">
+                <img alt="Netflix" class="netflix-logo-img"
+                    src="https://lh3.googleusercontent.com/aida/AEtjO1XGFKsnqwdZNZc9zEE2mSTx6g48xeLWZWquZ0ZOnNU6zJh6s82ASGjJZ0C1ATKNOUpgNHZEG8JGCd6pOp8zPy9e-Gd1TW7ITne_2_gS2fi-XMF2KIk4kLA7EHIjFG7fYyFkEdR_eflZTqfc43jQHutB5o9hS1FpV5krdF2CLja7C8AFXyW_AiJoy3dTpTsyi3eCR5tffyrqWnuFYsAZmjLx7TXjyhfugAgVML5Hz7_Pew" />
+            </a>
+            <nav class="main-nav">
+                <a class="nav-item active" href="#">Início</a>
+                <a class="nav-item" href="#">Séries</a>
+                <a class="nav-item" href="#">Filmes</a>
+                <a class="nav-item" href="#">Bombando</a>
+                <a class="nav-item" href="#">Minha Lista</a>
+                <a class="nav-item" href="#">Navegar por idiomas</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="search-wrapper">
+                <button aria-label="Buscar" class="search-btn" type="button">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+                <input class="search-input" placeholder="Títulos, gente e gêneros" type="text" />
+            </div>
+            <button aria-label="Notificações" class="notification-btn" type="button">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-profile-menu">
+                <div class="profile-avatar">
+                    <span class="material-symbols-outlined" style="font-size: 20px;">person</span>
+                </div>
+                <span class="material-symbols-outlined profile-dropdown-arrow">arrow_drop_down</span>
+            </div>
+        </div>
+    </header>
+    <!-- =========================================
+       HERO BILLBOARD (DESTAQUE)
+       ========================================= -->
+    <section class="hero-billboard">
+        <div class="hero-background" id="hero-backdrop"></div>
+        <div class="hero-vignette-bottom"></div>
+        <div class="hero-vignette-left"></div>
+        <div class="hero-content">
+            <div class="hero-meta-badge">
+                <span class="netflix-pill">
+                    <strong style="font-size: 13px; line-height: 1;">N</strong> ORIGINAL
+                </span>
+                <span class="hero-top-text">
+                    <span class="material-symbols-outlined"
+                        style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                    TOP 1 EM SÉRIES HOJE
+                </span>
+            </div>
+            <h1 class="hero-title">STRANGER<br />THINGS</h1>
+            <p class="hero-synopsis">
+                Quando um garoto desaparece na pacata cidade de Hawkins, amigos e familiares mergulham em um mistério
+                aterrador envolvendo experimentos secretos, forças sobrenaturais e uma garota muito estranha.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="playTitle('Stranger Things')" type="button">
+                    <span class="material-symbols-outlined"
+                        style="font-variation-settings: 'FILL' 1; font-size: 26px;">play_arrow</span>
+                    Assistir
+                </button>
+                <button class="btn-secondary"
+                    onclick="openModal('Stranger Things', 'Temporada 4 • 2022 • 9 episódios', '98% relevante', '16', 'Ficção Científica, Suspense, Sobrenatural', 'Quando uma nova ameaça aterrorizante surge do Mundo Invertido com um rastro de mortes cruéis, o grupo dividido entre Hawkins e a Califórnia precisa desvendar a história de Vecna para salvar a todos.')"
+                    type="button">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">info</span>
+                    Mais Informações
+                </button>
+            </div>
+        </div>
+        <div class="hero-aside-controls">
+            <button class="audio-toggle-btn" id="hero-mute-btn" onclick="toggleHeroAudio()" title="Alternar Áudio"
+                type="button">
+                <span class="material-symbols-outlined" id="hero-audio-icon" style="font-size: 20px;">volume_off</span>
+            </button>
+            <div class="age-rating-badge">16+</div>
+        </div>
+    </section>
+    <!-- =========================================
+       CARROSSÉIS DE CONTEÚDO
+       ========================================= -->
+    <main class="content-rails">
+        <!-- FILEIRA 1: EM ALTA NO MOMENTO -->
+        <section class="shelf-section">
+            <div class="shelf-header">
+                <h2 class="shelf-title">
+                    Em Alta no Momento
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <button aria-label="Anterior" class="carousel-nav-btn prev"
+                    onclick="scrollCarousel('carousel-trending', -1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="carousel-slider" id="carousel-trending">
+                    <!-- Card 1 -->
+                    <div class="movie-card" onclick="openQuickInfo(0)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuBommsMjFcjHJoSHe4Jojop4IxMEsDLFyRCScZ4-Lw13XwRVNFy2qDBWe3vewpThcLqcMLoy9fM5OVD9a3wQHExZUjlseR5Hq1ReO-Rkdc9hiw-S4HoIlCixcNWGVenw73bPLxponCvb18zgm2l9DzA1vcoeC6cjAD72_Ra0iApMfNhoy9tHllKArNMmHqu8yV7QkTxw102BdY9o0U36qGN_2ZkrHQFEqa2jmKN5p')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-netflix-badge">N</div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Round 6</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">99% relevante</span>
+                                    <span class="card-duration">Temporada 2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-progress-track">
+                            <div class="card-progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">check</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">thumb_up</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="movie-card" onclick="openQuickInfo(1)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBVbe7E8T18hxevUsDZecmtlNpDQi5zd5z0mZqGosZdxwAFhiyWxX8pDXM62KzKaJSECz8EuSalfhn4cN5TmZ8WDYMjS1XBTnkTPZU3lgIVYTPasuCIOY8cP3U3_o0BZmlTdT9Rg6crRbTfidDGHmc1KL2YQNS4RphXaDc44pcp8EFfKhsZw-l5rlBXLv2lq6Jxj8517flI2KjDcoQ9jn1BUtt_AQL3-FP0wNxadKMf')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-netflix-badge">N</div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Wandinha</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">96% relevante</span>
+                                    <span class="card-duration">8 episódios</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-progress-track">
+                            <div class="card-progress-bar" style="width: 35%;"></div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">thumb_up</span></button>
+                            </div>
+                            <span class="age-pill">14+</span>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="movie-card" onclick="openQuickInfo(2)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBd5iBXRKlTxPDcZ611YWn7uEK0SRyEzBqPJxA1ef_-Wf8da2rtgKlUxaXU-XDqqabvphUmA1ziFLJJx76heFtfmJ1Uvc2Sx8C7Io5_LtwXI27eDbIH7F0eLd8VqbUrFGDlttfsF5B2NhGfUjhWZKe5obfJndLmWd7lZteE60nSmzIeAaggDSx6JMczKZoIbeuzURwVtr8x41UnmwW8Fxk3BxWFyF_JLtiUIvg77A6l')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Bridgerton</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">95% relevante</span>
+                                    <span class="card-duration">Temporada 3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="movie-card" onclick="openQuickInfo(3)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAyfztG9xVABGEIzGsbnoGAalNrK4qdDeV0-evGbk9C3tn8huqGw3SYqTzbaBI2nsyjqIqWJqqwF3e8kyaSX94s41c1rwMf7NQErQ739_C78D-NuDbHVPma92VKJc83aoSSIas5hzoIdIkFmZLuEOwA3iN247ZpxtgoQ_rH0GOAkC-0YySlEOalKSMz2oInMJRBQ68J4y3ughK2mSzmatUtjnzwggBVsjzGWtq__xbF')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">La Casa de Papel: Berlim</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">92% relevante</span>
+                                    <span class="card-duration">8 episódios</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="movie-card" onclick="openQuickInfo(4)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCLv10nzWx7Jt8kGhCvXjYzxbvoUmlRZvY6GZ6BkYsmuoFzkT01N_AaVI_-iWYc7BjXjArMxRMLqLfk0UwH1fwMtflVGElFC1GFhkLyG-o4NJadK7UENpRojfi1NOy5FTSHSevSnX7AwcTWjqffMctE3EBzNJcAPlQxL9urKFkzXgwNTbQ3mnMhwXCV2GPXQGwzs6HdV8gJGnmcrtqHL6WEKAX5V4nq9FvJezqQgL5u')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">O Problema dos 3 Corpos</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">94% relevante</span>
+                                    <span class="card-duration">8 episódios</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="movie-card" onclick="openQuickInfo(5)">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD45R4wW-prrw2leBOLYIAHIcYDydLEy5PGQEd-XUQT3UhCjcThBoIpYC0fSuRky4YaZ464MGgOEtkOM-d8O4yGY1RpkPYsXTchiu63ZzMNxpoNSKkZ3nSVRW_zxaJ6kxAdB8yM8ULRH66kVjonrnIKMRzFzpKlcX8A1AeE2yYXw-JqJIsc2E0SVYmGOrPQTc0nl0xT_R5upAcK0g64S808JdCOBJxHoEeXkzuuWaP4')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">The Witcher</span>
+                                <div class="card-meta-line">
+                                    <span class="match-rate">91% relevante</span>
+                                    <span class="card-duration">Temporada 3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">18+</span>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Próximo" class="carousel-nav-btn next"
+                    onclick="scrollCarousel('carousel-trending', 1)">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+        <!-- FILEIRA 2: TOP 10 NO BRASIL HOJE -->
+        <section class="shelf-section">
+            <div class="shelf-header">
+                <h2 class="shelf-title">
+                    Top 10 no Brasil Hoje
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <button aria-label="Anterior" class="carousel-nav-btn prev"
+                    onclick="scrollCarousel('carousel-top10', -1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="carousel-slider" id="carousel-top10">
+                    <!-- Top 1 -->
+                    <div class="top10-item"
+                        onclick="openModal('Stranger Things 4', 'Temporada 4 • 2022', '99% relevante', '16', 'Ficção Científica, Terror', 'O fenômeno global de volta para sua temporada mais aterrorizante.')">
+                        <span class="top10-number">1</span>
+                        <div class="top10-poster"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1zaVrhUTrvH6fbpXZ_PBDoRQ2l3VCAVCxPmYT3x9Zhoi-kkuH5K-jtmdTO4bMAtZ7HSQ5AlUyEjK0Wr4-nT2hNramLg3iQTMapc18iyYNLzoCC0hi5qRJjNr2wLIDbIMJhub3q25RwSfO4VWp0gkEeL9W_Cymqs7K_Y3L5xVbZ6stHDghVrTh3NelbTmbk9JptkZzHqdSyl6V7t9jnd8wsb-kxbvZ3Kc6q3MeS3DV')">
+                            <span class="top10-badge">TOP 10</span>
+                        </div>
+                    </div>
+                    <!-- Top 2 -->
+                    <div class="top10-item"
+                        onclick="openModal('Round 6: O Desafio', 'Temporada 1 • 2024', '98% relevante', '14', 'Reality Show, Competição', '456 competidores reais disputando o maior prêmio da história da TV.')">
+                        <span class="top10-number">2</span>
+                        <div class="top10-poster"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDeRwNknBgY2mDJ51vgGlLpNBWO4Ld0YV8uwNQinR9I7-C_QgZix4p9o8o-Y74GynE8ytUFPXhaj2wV6Noslf2elJ_sXJzwsOKhsSiOem0yXOic5ycZXqPQUjwRs7TGSJ71THHl97RlkRIgUe1KVDsLm8VW5KMd3NNOeaEMVdGk1kpGhUOr-qaRxDfX9faBtX8f4suzFUIrI1XCwGM2GxqwegbcxLd9mcwH9tkwLhvJ')">
+                            <span class="top10-badge">TOP 10</span>
+                        </div>
+                    </div>
+                    <!-- Top 3 -->
+                    <div class="top10-item"
+                        onclick="openModal('Griselda', 'Minissérie • 2024', '97% relevante', '18', 'Drama, Crime', 'Uma mulher engenhosa e ambiciosa constrói um dos cartéis mais lucrativos da história.')">
+                        <span class="top10-number">3</span>
+                        <div class="top10-poster"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZah-MBdgSCYVr8NyOzGotNABDxBtP8LY_bTjeN1s8pYkmqR1J8i-NgAgDb8yE5AOgKMXRyOqwhjWJhVmyt9qEHXvOQZaJBufcrAib4OTLroboAXonb9HeX-tVZDYfWi-5fowLYxTpYoTQWLtwxnI98d2Qlb54udtH8fPthSGTtS62dUzSoniTp0x50G7OPb0no5_zuM-sveVYgYhaK-u4CxBTRlQFGmgGagbGlfXt')">
+                            <span class="top10-badge">TOP 10</span>
+                        </div>
+                    </div>
+                    <!-- Top 4 -->
+                    <div class="top10-item"
+                        onclick="openModal('Pedaço de Mim', 'Temporada 1 • 2024', '94% relevante', '16', 'Novela, Drama Familiar', 'Um caso inédito de superfecundação heteroparental sacode a vida de uma mulher e seus dois bebês gêmeos.')">
+                        <span class="top10-number">4</span>
+                        <div class="top10-poster"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7bzvKfM_7rniPhhKyXe94ckPT0IY63j3tJiO-3ZGBcY_sF0XAF0hQHToWNbJTVFgCWl_F3pRxiKM0n6Hno56GnDB94P_cPMtH3vNPqhcnKK-5p8wyIi82ThSEd1Id3oarybnNfE5A6jtS8VUs54OhOrtZAruIUC_1op17PEabDH_mLffv_eUeDl6H_kVH0SBhk9wPSUlefkD0VmI_d2WcOPqH7AqXvYh-4JVY3UFM')">
+                            <span class="top10-badge">TOP 10</span>
+                        </div>
+                    </div>
+                    <!-- Top 5 -->
+                    <div class="top10-item"
+                        onclick="openModal('Bebê Rena', 'Minissérie • 2024', '98% relevante', '18', 'Drama Psicológico, Humor Ácido', 'A relação distorcida entre um comediante fracassado e uma perseguidora vulnerável desencadeia traumas profundos.')">
+                        <span class="top10-number">5</span>
+                        <div class="top10-poster"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATDbo2_gitb4vgv26doKI6pfKV1u4TW2ll5hHN6_v5zEWSxd5SFLDPj7gitaV4MyIITPfv6dZl5tHmof4xPKPU4y2WKxp6sj7hmTEteltCytLwUCJPz2EKRYutWKiklWuvxa_Er2E3FMYizAslBVhiHhlyOSw_bPhQhaWoHJEGgXm4gHRfhWHFSSvvXk7du_PJvzjgN_QcpSOrInPnsYrgn4L27JolYbYLY9hyfSIi')">
+                            <span class="top10-badge">TOP 10</span>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Próximo" class="carousel-nav-btn next"
+                    onclick="scrollCarousel('carousel-top10', 1)">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+        <!-- FILEIRA 3: ORIGINAIS NETFLIX -->
+        <section class="shelf-section">
+            <div class="shelf-header">
+                <h2 class="shelf-title">
+                    Originais Netflix
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <button aria-label="Anterior" class="carousel-nav-btn prev"
+                    onclick="scrollCarousel('carousel-originals', -1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="carousel-slider" id="carousel-originals">
+                    <!-- Original 1 -->
+                    <div class="poster-original"
+                        onclick="openModal('Dark', '3 Temporadas', '97% relevante', '16', 'Ficção Científica, Mistério Alemão', 'Quatro famílias iniciam uma busca desesperada por respostas quando duas crianças desaparecem misteriosamente na cidade de Winden.')"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCXsbhk1LAeqrStHjMq0BmddWFvBit0-bdfzSXNXMgez9Kj-dhHrzi3yA13WgStuaNuYVF70TVXiCkdZyyqND0nmw9Ta5Okf9viQoO_3Vk9GxWVKoM0v5sTP134wakJEWwtKUhRtBrx4_q-MOEEFujDmCNsLuEgFtZtX0WTWbrbEG2GI-pTTGSu0B81g2-rOz0dmMJb1T3IdShuuWFV6cKUL61tYKAI0l8VssEKSkJu')">
+                        <div class="poster-scrim"></div>
+                        <span class="poster-netflix-n">N</span>
+                        <div class="poster-caption">
+                            <span class="poster-title">Dark</span>
+                            <span class="poster-match">97% Relevante</span>
+                        </div>
+                    </div>
+                    <!-- Original 2 -->
+                    <div class="poster-original"
+                        onclick="openModal('Mindhunter', '2 Temporadas', '96% relevante', '18', 'Crime, Suspense Psicológico', 'Dois agentes do FBI expandem as fronteiras da ciência criminal ao investigar a psicologia de assassinos em série.')"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBQ6GajLDop5Bot9CKfLaT79bcC1zyAvYwjwKr_oZULiYLm79G1rGxS2fNafdyw66yaYwPvegihQnuDVT92pSOA2xuKvo04qv7-pYmGJY3V_WJuRoqG79U6C5uPN1LVhVaNQcpU8hjdjnTpEuaJuwWuVnVlYMOujwJ0JxBr5O8HDUIXPccb-zZ8uo287v2zSgRFQFR47uS20vURQYMwZl6GnW0S_lpGO5stQoizxxFu')">
+                        <div class="poster-scrim"></div>
+                        <span class="poster-netflix-n">N</span>
+                        <div class="poster-caption">
+                            <span class="poster-title">Mindhunter</span>
+                            <span class="poster-match">96% Relevante</span>
+                        </div>
+                    </div>
+                    <!-- Original 3 -->
+                    <div class="poster-original"
+                        onclick="openModal('Sex Education', '4 Temporadas', '95% relevante', '16', 'Comédia Dramática', 'Otis, um adolescente inseguro, abre uma clínica clandestina de terapia sexual na escola com a rebelde Maeve.')"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbzyx8Fp_6AU2l-p3jaXe1kmuu5yGdAtBjUEuVrdZ5epnadqZlGmItDZJUoY-vpk82hJ7ZqN9OBFmmC4Slu_ZjOyWnpjy2K3BuqqTj3cN24YIEWbSoI7P_501t8bDt5ngJY6ORpSBdmBX6XyhFmlwtSq6XWW9CloMatE24oYw2CDgZYG5YarSzD1xPkidVlICRb3sUS8I1dI0c7GPbMpqgjC0UBUMbp9qoRNbSpLFM')">
+                        <div class="poster-scrim"></div>
+                        <span class="poster-netflix-n">N</span>
+                        <div class="poster-caption">
+                            <span class="poster-title">Sex Education</span>
+                            <span class="poster-match">95% Relevante</span>
+                        </div>
+                    </div>
+                    <!-- Original 4 -->
+                    <div class="poster-original"
+                        onclick="openModal('Black Mirror', '6 Temporadas', '93% relevante', '18', 'Ficção Científica Distópica', 'Esta série antológica explora um futuro próximo distorcido onde as maiores inovações tecnológicas colidem com instintos humanos sombrios.')"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDf5UL6-is3ephuF4c-o48mX6COIbZzFW-DvQrG0CKbFq5KHIlj2yTYUZRkBCVhEFrF6nal_yCBDTfMJGAWJ6gEaCQOJXKnepuAiQ1ScVzT5e8tLmzmnGpq87cAjr927tprGEH8DwRPcaoXjuXqtKGVM0fBAwjp_sGVhUbQCxa5Yz9YN18Gsm6UmwzYiJ4l-a3JmuGO5pUB424Tkv0TBNbmjArZu1B9RSgDOWdF3cfy')">
+                        <div class="poster-scrim"></div>
+                        <span class="poster-netflix-n">N</span>
+                        <div class="poster-caption">
+                            <span class="poster-title">Black Mirror</span>
+                            <span class="poster-match">93% Relevante</span>
+                        </div>
+                    </div>
+                    <!-- Original 5 -->
+                    <div class="poster-original"
+                        onclick="openModal('The Crown', '6 Temporadas', '94% relevante', '16', 'Drama Histórico Biográfico', 'Esta crônica acompanha a vida da rainha Elizabeth II e os acontecimentos políticos e pessoais que moldaram seu longo reinado.')"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCsYLPKKzFWUK3QYOPbtb5wEs-umBMH-Um0h-Op84NhJVYjcH_NRi9Fp4tVikr_uECMNFxv-Inw-jvZKc7tZPuV1yHV9FLtT_-JYmvlApZrYDWUtl95T08xQM1633oOty5LiUEQdSf0obglOY5A5eFZR6auJM91O_bKRiDCMY-4u5IxR_LYzheXotXOsGG9wlLos3j0LfTDTFmTGn-lRgGXF83StXF9ja0CH0P5YqF')">
+                        <div class="poster-scrim"></div>
+                        <span class="poster-netflix-n">N</span>
+                        <div class="poster-caption">
+                            <span class="poster-title">The Crown</span>
+                            <span class="poster-match">94% Relevante</span>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Próximo" class="carousel-nav-btn next"
+                    onclick="scrollCarousel('carousel-originals', 1)">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+        <!-- FILEIRA 4: MINHA LISTA -->
+        <section class="shelf-section">
+            <div class="shelf-header">
+                <h2 class="shelf-title">
+                    Minha Lista
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </h2>
+                <span class="shelf-more-link">Ver todos (18)</span>
+            </div>
+            <div class="carousel-wrapper">
+                <button aria-label="Anterior" class="carousel-nav-btn prev"
+                    onclick="scrollCarousel('carousel-mylist', -1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="carousel-slider" id="carousel-mylist">
+                    <!-- Item 1 -->
+                    <div class="movie-card">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuActZlZMpOgGhhPv5L3LUEymFJeNdA_GFdaGaDkdcQvbcb2ZbBRz5phsWm5vN4xzT8imspX481dvmciInh1uKyyylAS-wDe_TKUMGKGsp0uZyTM4_pCnmNSqO-980L02URZ46-juFKuO5-fuPUMhjQVqJxFtQBAvLbPrlegq8BgraIl6kUMP_i5fRQAYxJN1jS0Zm24Myr0vFzzLG7a4nB3Ssn5QpEDaBIHp2064rpw')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Arcane</span>
+                                <span class="match-rate">99% relevante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" onclick="playTitle('Arcane')" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">check</span></button>
+                            </div>
+                            <button class="circle-btn"
+                                onclick="openModal('Arcane', '2 Temporadas • Animação Premium', '99% relevante', '14', 'Ação, Fantasia, Ficção Científica', 'Em meio ao conflito entre as cidades-gêmeas de Piltover e Zaun, duas irmãs lutam em lados opostos de uma guerra entre tecnologias mágicas e convicções incompatíveis.')"
+                                type="button">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 18px;">keyboard_arrow_down</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="movie-card">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNq6DPbuagLUuhd5NatGSbJ60el7czPvQZ7Mtjsbmn2zun5KVJSYRfQRrkoL_hCCILpx67FaEok2UxKj383RV6Zkr23Edb2R_v48AvHNBbXkM-ZlBXKjBvm2ZLHPbsVgEOnKqUKDGwBNNTIip7T4qulFaxtfS6_mBON8jsM6bndxWyaxUEgsY8pXoOYusJearH6VNZ6PL3GPFneY7f_SnctlTnF25WBoHzYJiqjk2K')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Demolidor</span>
+                                <span class="match-rate">94% relevante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" onclick="playTitle('Demolidor')"
+                                    type="button"><span class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">check</span></button>
+                            </div>
+                            <button class="circle-btn"
+                                onclick="openModal('Demolidor', '3 Temporadas', '94% relevante', '18', 'Ação, Crime de Rua, Quadrinhos', 'Cego desde criança após um acidente químico, Matt Murdock usa seus sentidos aguçados para combater o crime à noite em Hell\'s Kitchen.')"
+                                type="button">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 18px;">keyboard_arrow_down</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="movie-card">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCjhZ75npLvj4Xzzff5I92M53m7VkXmVD2wk0WKeU3nEWR-ETCC3F8LpZAWpJlviZ8LK7nAS9ssFagZNZOCWGNqmGhfykNNqM3MoNdPD54j41nFvhNv48VU-kP3Q_5sN7VbktreS3FyeKBzMmE4ctAgERWDbvz0PjbieryFkfY9Sgg2ghYEDrpWP5zv_CZKryPpH6QiuKnOYlatPTnX7XMuJqfHGEySqEZ6t_Ilzmjf')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Mad Max: Estrada da Fúria</span>
+                                <span class="match-rate">96% relevante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" onclick="playTitle('Mad Max: Estrada da Fúria')"
+                                    type="button"><span class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">check</span></button>
+                            </div>
+                            <button class="circle-btn"
+                                onclick="openModal('Mad Max: Estrada da Fúria', '2h', '96% relevante', '16', 'Ação Pós-apocalíptica, Ficção Científica', 'Em um mundo pós-apocalíptico desolado, Max junta-se à misteriosa Furiosa para fugir de um tirano impiedoso e seu exército.')"
+                                type="button">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 18px;">keyboard_arrow_down</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="movie-card">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDe3vsuVTeWTSkWcyk7-m5yYnyMcGZ8YnFitxlaCR7aUxfMgXlpbwCwNP_XdjpFhvFOWLxRHYv6EkWEiJ11GenwZBtdlhlNs6o8V9uUM2o2BO5PXqHG77-9a4sXfB8UgE0ZvTeLdQHhH8L65mjWlKsd_3JfusP1-83kdZ7rAw1ngFPEZpxMuG7eHLdhn78h2u63samLEr87jN-OhK4OvEj_vDhyb2VpLErXr8glgCpF')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Peaky Blinders</span>
+                                <span class="match-rate">95% relevante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" onclick="playTitle('Peaky Blinders')"
+                                    type="button"><span class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">check</span></button>
+                            </div>
+                            <button class="circle-btn"
+                                onclick="openModal('Peaky Blinders', '6 Temporadas', '95% relevante', '18', 'Drama de Época, Crime Inglês', 'Thomas Shelby lidera uma perigosa gangue criminosa nas ruas de Birmingham após a Primeira Guerra Mundial.')"
+                                type="button">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 18px;">keyboard_arrow_down</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Próximo" class="carousel-nav-btn next"
+                    onclick="scrollCarousel('carousel-mylist', 1)">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+        <!-- FILEIRA 5: SUSPENSE E FICÇÃO CIENTÍFICA -->
+        <section class="shelf-section">
+            <div class="shelf-header">
+                <h2 class="shelf-title">
+                    Séries de Suspense e Ficção Científica
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </h2>
+            </div>
+            <div class="carousel-wrapper">
+                <button aria-label="Anterior" class="carousel-nav-btn prev"
+                    onclick="scrollCarousel('carousel-scifi', -1)">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <div class="carousel-slider" id="carousel-scifi">
+                    <!-- Sci-Fi 1 -->
+                    <div class="movie-card"
+                        onclick="openModal('1899', '1 Temporada', '90% relevante', '16', 'Mistério Náutico, Suspense Psicológico', 'Imigrantes a bordo de um navio a vapor para a América encontram outro navio à deriva, desencadeando um quebra-cabeça existencial inimaginável.')">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBd-njTCmlPHZhPOSbEpcqx3gu5VPLuLBCNRRCqCqoIyOIgui6uCbNp8JXsQrA_tAsXfvLhYJi9GXVbopuqwWo0Bf-0Fne_YJ7lFCHnQhUqekOq0LAFK68ADm51VBfDUW8NS83WKB5eeizvQ1h3H0xArP62mPlXhKAr_vNrywNmRim8pFFNyTpxrMQL3Sc-UmcmXp-B3Ie98LTKYXihq69vNrgVIz_KST5MSG-zKjIh')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">1899</span>
+                                <span class="card-duration">Sombrio • Enigmático • Intrigante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                    <!-- Sci-Fi 2 -->
+                    <div class="movie-card"
+                        onclick="openModal('Altered Carbon', '2 Temporadas', '91% relevante', '18', 'Cyberpunk, Ação Sci-Fi', 'Em um futuro no qual as mentes humanas são digitalizadas e transferidas entre corpos, um rebelde condenado volta à vida para desvendar um assassinato conspiratório.')">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfPYf8EkLojWrwdKrwpl357CHwqmwAn5lRburIOwrXeaeUkdYkAESxtTQU2eIapMVtKuNi_MFBb6RkVTuVadM2ZvDs0rTDr2Z4UZh8-jJFZ5YJBQfxxWP1u_67oL8y-DVrxgQFqQ7j3973sWT0vC96zUaEBGm6VWmYBaJATip_1WI0fmWwYJn6aSDvagFsRpxJUcsmroD0AbxbvVAvsHAptv8yYnRq-0G6QAoyirIs')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Altered Carbon</span>
+                                <span class="card-duration">Cyberpunk • Violento • Futurista</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">18+</span>
+                        </div>
+                    </div>
+                    <!-- Sci-Fi 3 -->
+                    <div class="movie-card"
+                        onclick="openModal('Love, Death &amp; Robots', '3 Volumes', '96% relevante', '18', 'Animação Adulta, Antologia', 'Seres aterrorizantes, surpresas cruéis e comédia de humor negro convergem nesta antologia animada de histórias provocativas.')">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCOmRQzAnujFMHQT9pQiXWZPD60KP776N2MhObu_phhMV3D7P4vD_mNajDpgn-eHBMcVtCznmTr_uftIqfNiJhwUOUpF50bd34OSRu7QYg1QEL-l1f50BMvr4o0rDeJQYMNYhBUbmwNeS7bITFQbDbu9nDACQBpYUp73zdkC2BBQRzwSaBmtPPagDYCuXvemRsQ8M2VkkPoy3__cWi_MKY3_9Lj4vxSX7QmKZgSTEeR')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Love, Death &amp; Robots</span>
+                                <span class="card-duration">Antologia • Visual Deslumbrante</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">18+</span>
+                        </div>
+                    </div>
+                    <!-- Sci-Fi 4 -->
+                    <div class="movie-card"
+                        onclick="openModal('Maniac', 'Minissérie', '91% relevante', '16', 'Ficção Psicológica, Surpreendente', 'Dois estranhos se conectam durante um misterioso ensaio clínico farmacêutico que promete consertar qualquer falha da mente humana sem efeitos colaterais.')">
+                        <div class="card-thumbnail"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCOnSqCC8tK_-8xDSPkOOVZWbxyl4IdmMr7jVuIxOpXWYzgtp-GTXo7dvATGuIH5DiG3PLW7i6a1evb3yUdbWXGeIUxvnkqkyi-lab6w0SIhSa2SXhhOC55QxrEAiXIMhMD4ckYPJkZY0fUiFXO0U_-e8Yz2YuPMfFSQ7vDyClggBdkHhcytXveavzhvoPoSa0Cuaw2UJnwtAEU7DyLuayZ2DYcghT7ytsUId3dSw_')">
+                            <div class="card-thumbnail-scrim"></div>
+                            <div class="card-info-overlay">
+                                <span class="card-title">Maniac</span>
+                                <span class="card-duration">Excêntrico • Psicológico • Viagem Mental</span>
+                            </div>
+                        </div>
+                        <div class="card-details-panel">
+                            <div class="card-actions-left">
+                                <button class="circle-btn play-circle" type="button"><span
+                                        class="material-symbols-outlined"
+                                        style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span></button>
+                                <button class="circle-btn" type="button"><span class="material-symbols-outlined"
+                                        style="font-size: 16px;">add</span></button>
+                            </div>
+                            <span class="age-pill">16+</span>
+                        </div>
+                    </div>
+                </div>
+                <button aria-label="Próximo" class="carousel-nav-btn next"
+                    onclick="scrollCarousel('carousel-scifi', 1)">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+    </main>
+    <!-- =========================================
+       MODAL DE DETALHES (MAIS INFORMAÇÕES)
+       ========================================= -->
+    <div class="modal-overlay" id="title-modal">
+        <div class="modal-box" id="modal-container">
+            <button aria-label="Fechar" class="modal-close-btn" onclick="closeModal()" type="button">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="modal-billboard" id="modal-image"
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCD0mXR2ANe14VG7BDyastxhZs5VDE5zhPjvjHerileoLJnuM4ri6H9hbDMzmueWU31F-bvf_e9UUy_o355BzcaeYNStSvh381MMXx_66wI-8BzAFMf5diZLOdzLhQt0i6chW7v-OONeWF0u5UAk0mTMddeerhzqb0PUItZJGoIb7rKn9Lb6z8kyjD4toY1QzpYESmTyVLTYXmXgwp0YcyOEKpP9oyHRyVHgOT7meQ2')">
+                <div class="modal-billboard-scrim"></div>
+                <div class="modal-billboard-content">
+                    <h3 class="modal-title-display" id="modal-title">Título em Destaque</h3>
+                    <div class="modal-actions-row">
+                        <button class="btn-primary"
+                            onclick="playTitle(document.getElementById('modal-title').innerText)" type="button">
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1; font-size: 24px;">play_arrow</span>
+                            Assistir
+                        </button>
+                        <button class="circle-btn" title="Adicionar à Minha Lista" type="button">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                        </button>
+                        <button class="circle-btn" title="Gostei" type="button">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">thumb_up</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body-content">
+                <div class="modal-details-grid">
+                    <div>
+                        <div class="modal-meta-line">
+                            <span class="match-rate" id="modal-match">98% relevante</span>
+                            <span id="modal-duration" style="color: var(--text-subtle);">2023 • 4 Temporadas</span>
+                            <span class="age-pill" id="modal-rating">16+</span>
+                            <span class="badge-pill-hd">Ultra HD 4K</span>
+                            <span class="badge-pill-hd">Dolby Vision</span>
+                        </div>
+                        <p class="modal-synopsis-text" id="modal-synopsis">
+                            Uma história épica e envolvente narrada com visuais grandiosos, atuações consagradas e
+                            reviravoltas chocantes a cada episódio.
+                        </p>
+                    </div>
+                    <div class="modal-metadata-right">
+                        <p><span>Elenco:</span> Winona Ryder, David Harbour, Millie Bobby Brown, Finn Wolfhard</p>
+                        <p><span>Gêneros:</span> <strong id="modal-genres"
+                                style="color: var(--text-muted); font-weight: normal;">Ficção Científica, Mistério,
+                                Terror</strong></p>
+                        <p><span>Cenas e momentos:</span> Assustadores, Empolgantes, Nostálgicos</p>
+                    </div>
+                </div>
+                <div class="modal-episodes-section">
+                    <div class="modal-episodes-header">
+                        <h4>Episódios</h4>
+                        <span style="font-size: 13px; color: var(--text-subtle); font-weight: 500;">Temporada 1</span>
+                    </div>
+                    <div class="episode-item">
+                        <div class="episode-left">
+                            <span class="episode-num">1</span>
+                            <div class="episode-thumb"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZfLJz2aSA_PjK0_dQefjd8AVy3_Zpp0y7-sXhwlF31oEcP5Pwx4PwB-71Wi0lKR1BZoc2TADYb80WBQREV0QyEBZGs7yQytiWxidQjqezBeX1bXK45FXBRBsq7EYaa83-Zo_az8STK32wcGwaXDc2Cyu6k2K1jeV73jImHrTfiD_r6549Se87PBghmk5RyWUMIamgVzGv4JHrrSkyHP7SE1a5bXCeXdBiqlxaQ0dR')">
+                            </div>
+                            <div class="episode-title-box">
+                                <span class="episode-title-name">Capítulo Um: O Desaparecimento</span>
+                                <span class="episode-desc-text">Na volta para casa após uma partida de RPG, um garoto
+                                    avista algo assustador.</span>
+                            </div>
+                        </div>
+                        <span style="font-size: 13px; color: var(--text-subtle);">48 min</span>
+                    </div>
+                    <div class="episode-item">
+                        <div class="episode-left">
+                            <span class="episode-num">2</span>
+                            <div class="episode-thumb"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCJW3LP9ug1GWal5NbDKTmcoFP1KFdAcdYkn1mnZShTTghTG0Ne78UlqIg3UzmtL5a4dKlfhbzHCo4N3FzKv78zRVdQXtBUKU0zokI3oJr8g1FMjEuMo5WETq_oMdiGxy-NlfgMFOfnF2eKi4V_CrLK3YFTHSQvYW0KZVEIitxl3EfuL_26XHbJM34vkziP4td2SqiX7cFlSqPZe0IWOGMlk3dJsbONThiPqWCTl-7y')">
+                            </div>
+                            <div class="episode-title-box">
+                                <span class="episode-title-name">Capítulo Dois: A Estranha da Rua Maple</span>
+                                <span class="episode-desc-text">Os garotos encontram a misteriosa garota no bosque e
+                                    descobrem seus poderes sobrenaturais.</span>
+                            </div>
+                        </div>
+                        <span style="font-size: 13px; color: var(--text-subtle);">55 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TOAST FEEDBACK -->
+    <div class="toast-notification" id="play-toast">
+        <span class="material-symbols-outlined toast-icon"
+            style="font-variation-settings: 'FILL' 1;">smart_display</span>
+        <span id="play-toast-text">Iniciando transmissão...</span>
+    </div>
+    <!-- =========================================
+       RODAPÉ
+       ========================================= -->
+    <footer class="netflix-footer">
+        <div class="footer-inner-container">
+            <p class="footer-contact">Dúvidas? Ligue para <a href="#">0800 591 2876</a></p>
+            <div class="footer-links-grid">
+                <a class="footer-link" href="#">Perguntas Frequentes</a>
+                <a class="footer-link" href="#">Central de Ajuda</a>
+                <a class="footer-link" href="#">Termos de Uso</a>
+                <a class="footer-link" href="#">Privacidade</a>
+                <a class="footer-link" href="#">Preferências de Cookies</a>
+                <a class="footer-link" href="#">Informações Corporativas</a>
+            </div>
+            <div>
+                <button class="service-code-btn" type="button">Código do serviço</button>
+            </div>
+            <p class="footer-copyright">© 2024 Netflix, Inc.</p>
+        </div>
+    </footer>
+    <!-- =========================================
+       SCRIPTS VANILLA INTERATIVOS
+       ========================================= -->
+    <script>
+        // Header com fundo dinâmico ao rolar a página
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('navbar');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Rolagem horizontal dos carrosséis
+        function scrollCarousel(id, direction) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const scrollAmount = el.clientWidth * 0.75 * direction;
+            el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+
+        // Modal de Detalhes
+        function openModal(title, duration, match, rating, genres, synopsis) {
+            const modal = document.getElementById('title-modal');
+
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-duration').innerText = duration;
+            document.getElementById('modal-match').innerText = match;
+            document.getElementById('modal-rating').innerText = rating + '+';
+            document.getElementById('modal-genres').innerText = genres;
+            document.getElementById('modal-synopsis').innerText = synopsis;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('title-modal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('title-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Base de dados para a linha de Em Alta
+        const trendingData = [
+            { title: 'Round 6', duration: 'Temporada 2', match: '99% relevante', rating: '16', genres: 'Suspense, Drama Social, Sobrevivência', synopsis: 'Centenas de jogadores falidos aceitam um estranho convite para um jogo infantil de apostas letais por um prêmio milionário.' },
+            { title: 'Wandinha', duration: '8 episódios', match: '96% relevante', rating: '14', genres: 'Comédia Sombria, Mistério Sobrenatural', synopsis: 'Inteligente, sarcástica e um pouco apática, Wandinha Addams investiga uma onda de assassinatos enquanto faz amigos e inimigos na Academia Nunca Mais.' },
+            { title: 'Bridgerton', duration: 'Temporada 3', match: '95% relevante', rating: '16', genres: 'Romance de Época, Drama Histórico', synopsis: 'Oito irmãos inseparáveis da família Bridgerton buscam o amor e a felicidade na alta sociedade de Londres regida por escândalos e cortejos.' },
+            { title: 'La Casa de Papel: Berlim', duration: '8 episódios', match: '92% relevante', rating: '16', genres: 'Ação, Assalto Genial, Romance', synopsis: 'Em seus dias de glória antes do roubo à Casa da Moeda, Berlim reúne uma quadrilha magistral em Paris para um dos seus golpes mais audaciosos.' },
+            { title: 'O Problema dos 3 Corpos', duration: '8 episódios', match: '94% relevante', rating: '16', genres: 'Ficção Científica Cósmica, Mistério', synopsis: 'Uma decisão tomada na China na década de 1960 repercute no espaço e no tempo, levando cientistas brilhantes a enfrentar a maior ameaça da humanidade.' },
+            { title: 'The Witcher', duration: 'Temporada 3', match: '91% relevante', rating: '18', genres: 'Fantasia Sombria, Magia e Monstros', synopsis: 'O mutante Geralt de Rívia, um caçador de monstros solitário, luta para encontrar seu lugar em um mundo onde as pessoas muitas vezes são mais perversas que as feras.' }
+        ];
+
+        function openQuickInfo(index) {
+            const item = trendingData[index];
+            if (item) {
+                openModal(item.title, item.duration, item.match, item.rating, item.genres, item.synopsis);
+            }
+        }
+
+        // Controle de Áudio
+        let isMuted = true;
+        function toggleHeroAudio() {
+            isMuted = !isMuted;
+            const icon = document.getElementById('hero-audio-icon');
+            if (isMuted) {
+                icon.innerText = 'volume_off';
+                showToast('Áudio desativado');
+            } else {
+                icon.innerText = 'volume_up';
+                showToast('Áudio ativado');
+            }
+        }
+
+        // Toast Feedback
+        function playTitle(title) {
+            showToast('Reproduzindo: ' + title);
+        }
+
+        let toastTimeout;
+        function showToast(text) {
+            const toast = document.getElementById('play-toast');
+            const toastText = document.getElementById('play-toast-text');
+            toastText.innerText = text;
+
+            toast.classList.add('active');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('active');
+            }, 2800);
+        }
+    </script>
+</body>
+
+</html>

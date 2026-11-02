@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, Tahoma;
+    background-color: #222;
+    color: #FFF;
+    padding-top: 100px;
+}
+
+header {
+    background-color: rgb(63, 63, 91);
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+nav {
+    background-color: rgb(94, 94, 134);
+    padding: 20px;
+    text-align: center;
+    a {
+        color: #FFF;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+}
+
+section {
+    padding: 180px 0;
+}
+
+.hero {
+    background: url('../imgs/bg.jpg') no-repeat;
+    background-size: cover;
+    h1 {
+        font-size: 2em;
+        margin: 20px 0;
+    }
+    h2 {
+        font-size: 1.5em;
+        font-style: normal;
+        margin: 20px 0;
+    }
+    span {
+        color: orange
+    }
+    .btn {
+        margin: 10px 0;
+        background-color: orange;
+        text-decoration: none;
+        color: #FFF;
+        padding: 10px 5px;
+        border-radius: 5px;
+    }
+    .btn-borda {
+        margin: 10px 10px;
+        border: 1px solid orange;
+        text-decoration: none;
+        color: #FFF;
+        padding: 10px 5px;
+        border-radius: 5px;
+    }
+    .card {
+        margin: 10px 0;
+        border: 1px solid orange;
+        border-radius: 10px;
+        padding: 10px;
+        img {
+            border-radius: 10px;
+            width: 100%;
+        }
+    }
+}
+
+.container {
+    width: 350px;
+    margin: 10px auto;
+    h3 {
+        color: orange;
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+    }
+}
+
+.img {
+    width: 100%;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.grid {
+    .col {
+        margin: 40px 0;
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    }
+}
+
+#sobre {
+    background-color: #000;
+}
+
+#fotos {
+    background-color: #333;
+}
+
+#contato {
+    label {
+        width: 100%;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+    .btn {
+        background-color: orange;
+        border: 1px solid #FFF;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+}
+
+footer {
+    padding: 20px;
+    background-color: #000;
+    p {
+        text-align: center;
+    }
+}
+
+@media (min-width: 480px) {
+    header {
+        nav {
+            a {
+                margin: 30px;
+            }
+        }
+    }
+    .container {
+        width: 1000px;
+    }
+    .hero {
+        .grid {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            place-items: center;
+        }
+    }
+    #fotos {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 33%);
+            .col {
+                margin: 10px;
+            }
+        }
+    }
+}

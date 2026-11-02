@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo Integrado</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="imgs/icone.png">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" title="Intregrado" class="header-logo">
+            <img src="imgs/logo-negativa.png" alt="Integrado">
+        </a>
+        <a href="javascript:;" title="Menu" onclick="showMenu()" class="header-menu">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="menu">
+            <ul>
+                <li>
+                    <a href="index.html" title="Home">Home</a>
+                </li>
+                <li>
+                    <a href="sobre.html" title="Sobre">Sobre</a>
+                </li>
+                <li>
+                    <a href="contato.html" title="Contato">Contato</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Sobre o Integrado</h1>
+        <p>
+            <img src="imgs/integrado.jpeg" alt="Integrado" class="img">
+        </p>
+        <p>
+            Há mais de 35 anos, o Grupo Integrado transforma vidas por meio de um ensino de qualidade e pela realização de inúmeros projetos e ações sociais.
+        </p>
+        <p>
+            Nossa história começou em 1986, quando um grupo de 50 pessoas se uniu, com o propósito em comum de transformar a educação em Campo Mourão e região. No ano seguinte, teve início o primeiro ano letivo do Colégio Integrado, que hoje oferece um ensino integral e de qualidade da educação infantil ao ensino médio.
+        </p>
+        <p>
+            Para garantir que os estudantes mourãoenses pudessem cursar o ensino superior na mesma cidade, o Grupo Integrado buscou a autorização do Ministério da Educação (MEC) para o funcionamento da Faculdade Integrado. Foi assim que, em 1997, a faculdade passou a ofertar os primeiros cursos superiores.
+        </p>
+        <p>
+            Com o tempo, o Grupo Integrado cresceu. A aquisição do grupo pelos sócios Henning Erich Baer e Maria da Conceição Montans Baer trouxe uma nova fase de desenvolvimento para a empresa e um mundo de oportunidades.
+        </p>
+        <p>
+            A integração das plataformas Super Professor e Coonect.se, e a criação das verticais do agronegócio, da tecnologia e da saúde, bem como de um espaço de incubação de startups,o Integrow, reforçam o nosso compromisso com a inovação.
+        </p>
+    </main>
+    <footer class="footer">
+        <p>Desenvolvido por José da Silva</p>
+    </footer>
+
+    <script>
+        function showMenu() {
+            var menu = document.getElementById("menu");
+            menu.classList.toggle("escondido");
+        }
+    </script>
+</body>
+</html>

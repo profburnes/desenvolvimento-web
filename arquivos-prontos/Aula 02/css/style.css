@@ -1,0 +1,74 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: url(../imgs/fundo.jpg) no-repeat fixed;
+	background-size: cover;
+	font-family: Tahoma;
+}
+
+header {
+	width: 100%;
+	background: #FFF;
+	padding: 20px;
+	text-align: center;
+	img {
+		width: 300px;
+	}
+}
+
+main {
+	width: 1000px;
+	background: rgba(0, 0, 0, 0.7);
+	margin: 100px auto;
+	padding: 20px;
+	border-radius: 10px;
+	color: #FFF;
+	h2 {
+		margin-bottom: 20px;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(4, 25%);
+		.card {
+			margin: 2px;
+			border: 1px solid #FFF;
+			text-align: center;
+			padding: 20px 10px;
+			background: #FFF;
+			color: #333;
+			line-height: 30px;
+			img {
+				filter: grayscale(100);
+				transition: 1s;
+			}
+			img:hover{
+				filter: grayscale(0);
+				margin-top: -5px;
+			}
+
+		}
+	}
+	.btn {
+		margin: 10px;
+		background: red;
+		text-decoration: none;
+		color: #FFF;
+		padding: 10px 5px;
+		transition: all 1s;
+	}
+	.btn:hover {
+		background: #000;
+	}
+}
+
+@media (max-width: 480px) {
+	main {
+		width: 380px;
+		.grid {
+			grid-template-columns: 100%;
+		}
+	}
+}

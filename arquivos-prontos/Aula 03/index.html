@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Bill Gates</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <a href="#top" title="Início">
+            <img src="imgs/logo.png" alt="Logo - Bill Gates">
+        </a>
+    
+        <nav>
+            <a href="#sobre" title="Sobre">Sobre</a>
+            <a href="#fotos" title="Fotos">Fotos</a>
+            <a href="#contato" title="Contato">Contato</a>
+        </nav>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <div class="grid">
+                <div class="col">
+                    <h1>Criador da <span>Microsoft</span>, uma da maiores empresas do <span>Mundo</span></h1>
+                    <h2>Conheça a história de Bill Gates</h2>
+                    <p>
+                        <a href="#sobre" title="Sobre" class="btn">
+                            Saiba mais sobre
+                        </a>
+                        <a href="#contato" title="Sobre" class="btn-borda">
+                            Entre em Contato
+                        </a>
+                    </p>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <img src="imgs/bill.png" alt="Bill Gates">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="sobre">
+        <div class="container">
+            <h3>Saiba mais sobre o <span>Bill Gares</span></h3>
+            <img src="imgs/bill-2.jpg" alt="Bill Gates" class="img">
+            <p>
+                William Henry "Bill" Gates III KBE • GCIH (Seattle, 28 de outubro de 1955) é um magnata, empresário, diretor executivo, investidor, filantropo e autor norte-americano, que ficou conhecido por fundar, junto com Paul Allen, a Microsoft,[2] a maior e mais conhecida empresa de software do mundo em termos de valor de mercado.
+            </p>
+            <p>
+                Gates ocupa atualmente o cargo de presidente não-executivo da Microsoft,[3] além de ser classificado regularmente como a pessoa mais rica do mundo, posição ocupada por ele de 1995 a 2007,[4] 2009,[5] e de 2014 a 2017.[6][7][8][9] É um dos pioneiros na revolução do computador pessoal.
+            </p>
+        </div>
+    </section>
+    <section id="fotos">
+        <div class="container">
+            <h3>Galeria de Fotos</h3>
+            <div class="grid">
+                <div class="col">
+                    <img src="imgs/bill1.jpeg" alt="Foto 1">
+                </div>
+                <div class="col">
+                    <img src="imgs/bill2.jpg" alt="Foto 2">
+                </div>
+                <div class="col">
+                    <img src="imgs/bill3.jpg" alt="Foto 3">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contato">
+        <div class="container">
+            <h3>Entre em Contato</h3>
+            <form name="formContato" method="post">
+                <label for="nome">Seu nome:</label>
+                <input type="text" name="nome" id="nome" class="input">
+                <br>
+                <label for="email">Seu e-mail:</label>
+                <input type="text" name="email" id="email" class="input">
+                <br>
+                <label for="mensagem">Mensagem:</label>
+                <textarea name="mensagem" id="mensagem" class="input" rows="10"></textarea>
+                <br>
+                <button type="submit" class="btn">
+                    Enviar Mensagem
+                </button>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <p>Desenvolvido por Bill Gates</p>
+    </footer>
+</body>
+</html>
